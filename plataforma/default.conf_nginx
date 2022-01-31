@@ -1,0 +1,48 @@
+server {
+    listen       3000;
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+    server_name localhost;
+
+        location / {
+                try_files $uri $uri/ =404;
+                }
+
+        location /projetos {
+         proxy_pass http://api_webplataforma:3001/projetos;
+        }
+
+        location /plataforma {
+         proxy_pass http://api_webplataforma:3001/plataforma;
+        }
+
+        location /nodes {
+         proxy_pass http://api_webplataforma:3001/nodes;
+        }
+
+        location /equip {
+         proxy_pass http://api_webplataforma:3001/equip;
+        }
+
+        location /autenticacao {
+         proxy_pass http://api_webplataforma:3001/autenticacao;
+        }
+
+        location /usuarios {
+         proxy_pass http://api_webplataforma:3001/usuarios;
+        }
+
+        location /novnc {
+         proxy_pass http://websocket:6081/novnc;
+        }
+
+        location /vnc {
+         proxy_pass http://novnc:8080/vnc;
+        }
+
+        location /ssh {
+         proxy_pass http://webssh:2222/ssh;
+        }
+
+
+}

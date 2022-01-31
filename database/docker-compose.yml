@@ -1,0 +1,13 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - /home/thiagohmm/projeto_plataforma/database/data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: atechatech
+        MYSQL_DATABASE: plataforma_db
+        MYSQL_USER: plataformadb
+        MYSQL_PASSWORD: atechatech

@@ -1,0 +1,28 @@
+{
+  "author": "Joel Martin <github@martintribe.org> (http://github.com/kanaka)",
+  "name": "node-websockify-js",
+  "description": "node-websockify is NodeJS module version of websockify-js project",
+  "license": "LGPL-3.0",
+  "version": "0.8.1",
+  "main": "websockify.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lailune/node-websockify-js.git"
+  },
+  "files": [
+    "websockify.js"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@maximegris/node-websockify": "^1.0.7",
+    "mime-types": "latest",
+    "ws": ">=0.4.27"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
