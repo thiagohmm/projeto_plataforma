@@ -3,6 +3,8 @@ import PlataformaService from '../../controller/plataforma_service';
 import NodesService from '../../controller/node_service';
 import EquipamentoService from '../../controller/equipamento_service';
 import SearchBox from '../../components/searchbox';
+
+
 import {
   TabContent,
   TabPane,
@@ -34,7 +36,8 @@ class listaNode extends React.Component {
       nodes: [],
       equipamentos: [],
       searchfield: '',
-      idparam: ''
+      idparam: '',
+    
     };
   }
 
@@ -52,13 +55,16 @@ class listaNode extends React.Component {
       porta: porta,
       prefix: alias,
       ip: ip,
+     
     };
     this.nodeservice.vncConnect(vnc);
     // window.open(
     //   `http://localhost/novncp/vnc.html?host=localhost&port=6080&path=${nome}${porta}${alias}?show_dot=true`
     // );
+    
     window.open(
-      `http://10.103.3.107:8080/vnc/vnc.html?host=10.103.3.107&port=6080&path=${nome}${porta}${alias}?show_dot=true&autoconnect=1`
+      `http://${window.location.hostname}:8080/vnc/vnc.html?host=${window.location.hostname}&port=6080&path=${nome}${porta}${alias}?show_dot=true`
+      
     );
   };
 
@@ -80,6 +86,8 @@ class listaNode extends React.Component {
 
     const equip = await this.equipamentoservice.listaequipPlataforma(id);
     this.setState({ equipamentos: equip });
+
+   console.log(process.env.REACT_APP_IP_URL)
     
   }
 

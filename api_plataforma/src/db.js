@@ -4,7 +4,8 @@ const logger = new Logger('db')
 require('dotenv').config({ path: '.env' })
 
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
+  connectionLimit : 100,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -12,22 +13,11 @@ var connection = mysql.createConnection({
 
 });
 
-connection.connect(function (err) {
-  // try {
-
-  //   console.log('connected!');
-  //   logger.info('Conexão com banco de dados iniciada');
-
-  //   setInterval(function () {
-  //     connection.query('SELECT 1');
-  // }, 5000);
-
-  // } catch (err) {
-  //   console.log(err);
-  //   logger.err(`erro de banco de dados ${err}`)
-
-  if (err) throw err;
-  console.log("Connected!");
-  
+connection.getConnection((err,connection)=> {
+  if(err)
+  throw err;
+  console.log('Database connected successfully');
+  connection.release();
 });
+
 module.exports = connection;
