@@ -1,0 +1,93 @@
+version: "3"
+services:
+    db:
+      container_name: db_webplataforma
+      image: mysql
+      hostname: db
+      ports:
+       - "3306:3306"
+      environment:
+         - MYSQL_ROOT_PASSWORD=atechatech
+         - MYSQL_DATABASE=plataforma_db
+         - MYSQL_PORT=3306
+         - MYSQL_USER=admin
+         - MYSQL_PASSWORD=atechatech
+
+      volumes:
+         -/home/thiagohmm/projeto_plataforma/compose/mysql/data:/var/lib/mysql
+         -/home/thiagohmm/projeto_plataforma/compose/mysql/init:/docker-entrypoint-initdb.d/:ro
+
+      networks:
+        - webplataforma_net
+        - default
+
+    api_webplataforma:
+      container_name: api_webplataforma
+      image: 192.168.106.6:5000/api_webplataforma1.2
+      hostname: api
+      ports:
+        - "3001:3001"
+      environment:
+        - DB_HOST=db
+        - DB_USER=root
+        - DB_PASS=atechatech
+
+      networks:
+        - webplataforma_net
+
+    websocket:
+      container_name: websocket
+      image: 192.168.106.6:5000/web-socket
+      hostname: websocket
+      ports:
+        - "6080:6080"
+        - "6081:6081"
+
+      networks:
+        - webplataforma_net
+
+
+    novnc:
+      container_name: novnc
+      image: 192.168.106.6:5000/novnc-plataforma1.0
+      hostname: novnc
+      ports:
+        - "8080:8080"
+
+      volumes:
+              -/home/thiagohmm/projeto_plataforma/compose/novnc:/usr/local/apache2/htdocs/vnc 
+      networks:
+        - webplataforma_net
+
+
+    webssh2:
+      container_name: webssh
+      image: 192.168.106.6:5000/webssh2
+      hostname: webssh
+      ports:
+        - "2222:2222"
+
+      networks:
+        - webplataforma_net
+
+
+
+    webplataforma:
+      container_name: webplataforma-Front
+      image: 192.168.106.6:5000/webplataformav1.5
+      hostname: webplataforma
+      ports:
+       - "3000:3000"
+      networks:
+        - webplataforma_net
+
+
+networks:
+  webplataforma_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.240.0/24
