@@ -5,6 +5,7 @@ import EquipamentoService from '../../controller/equipamento_service'
 import { withRouter } from 'react-router-dom';
 import SearchBox from '../../components/searchbox';
 import equipamento_service from '../../controller/equipamento_service';
+import Modal from '../../components/modal';
 
 
 function GerenciaEquipamentos (props){
@@ -84,6 +85,11 @@ function GerenciaEquipamentos (props){
 
   }
 
+
+  const updateStatus = (status) => {
+    setShowModal(status)
+
+  }
   
  
 
@@ -91,25 +97,16 @@ function GerenciaEquipamentos (props){
     <div>
       <h2>Gerenciamento de Equipamentos</h2>
       <br/>
-      {showModal == true ?(
-     <div className="modal-dialog" role="document">
-     <div className="modal-content">
-       <div className="modal-header">
-         <h5 className="modal-title">Exclusão de Nodes</h5>
-         <button type="button" className="close" data-dismiss="modal" onClick={() => setShowModal(false)} aria-label="Close">
-           <span aria-hidden="false">&times;</span>
-         </button>
-       </div>
-       <div className="modal-body">
-   <p> Essa ação excluirá o node selecionado.<br/> Essa ação não tem volta.</p>
-       </div>
-       <div className="modal-footer">
-         <button type="button" className="btn btn-primary" onClick={() => handleExcluir(id,hostplatID)}>Excluir</button>
-         <button type="button" className="btn btn-secondary" data-dismiss="modal"onClick={() => setShowModal(false)} >Close</button>
-       </div>
-     </div>
-   </div>):("")
-}
+      {showModal == true ?( 
+      <Modal showModal={showModal}
+      updateStatus={updateStatus}
+      id={id}
+      hostplatID={hostplatID}
+      handleExcluir={handleExcluir}
+      texto="equipamento"   /> 
+                 
+          
+     ):("")}
       <div className="form-group">
       <label htmlFor="exampleSelect1">Projeto</label>
       <select

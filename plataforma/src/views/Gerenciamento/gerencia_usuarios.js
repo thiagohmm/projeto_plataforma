@@ -1,6 +1,7 @@
 import React , { useState,  useEffect } from 'react';
 import UserService from '../../controller/usuarios_service'
 import { withRouter } from 'react-router-dom';
+import Modal from '../../components/modal';
 
 function GerenciaUsuarios(props) {
   const [Usuarios, setUsuarios] = useState([]);
@@ -35,31 +36,24 @@ function GerenciaUsuarios(props) {
   }
   
 
+  const updateStatus = (status) => {
+    setShowModal(status)
 
+  }
 
   return (
     <div>
       <h2>Gerenciamento de Usuários</h2>
       <br/>
-      {showModal == true ?(
-     <div className="modal-dialog" role="document">
-     <div className="modal-content">
-       <div className="modal-header">
-         <h5 className="modal-title">Exclusão de Usuarios</h5>
-         <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setShowModal(false)}>
-           <span aria-hidden="false">&times;</span>
-         </button>
-       </div>
-       <div className="modal-body">
-   <p>Deseja mesmo excluir o projeto {nome} de id {id} ? Essa ação excluirá todas as plataformas e nodesVinculadas a ele e não tem volta</p>
-       </div>
-       <div className="modal-footer">
-         <button type="button" className="btn btn-primary" onClick={() => handleExcluir(id)}>Excluir</button>
-         <button type="button" className="btn btn-secondary" data-dismiss="modal"onClick={() => setShowModal(false)} >Close</button>
-       </div>
-     </div>
-   </div>):("")
-}
+      {showModal == true ?( 
+      <Modal showModal={showModal}
+      updateStatus={updateStatus}
+      id={id}
+      handleExcluir={handleExcluir}
+      texto="plataforma"   /> 
+                 
+          
+     ):("")}
       <table className="table table-hover">
         <thead>
           <tr>

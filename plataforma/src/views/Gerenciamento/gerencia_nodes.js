@@ -4,6 +4,7 @@ import PlataformaService from '../../controller/plataforma_service'
 import NodeService from '../../controller/node_service'
 import { withRouter } from 'react-router-dom';
 import SearchBox from '../../components/searchbox';
+import Modal from '../../components/modal';
 
 
 function GerenciaNodes(props){
@@ -14,6 +15,8 @@ function GerenciaNodes(props){
   
   const [nodes, setNodes] = useState([]);
   const [filteredNodes,setfilteredNodes] =  useState([])
+
+
   
 
   const [showModal, setShowModal] = useState(false);
@@ -21,8 +24,7 @@ function GerenciaNodes(props){
   let [id, setId] = useState();
   let [nome, setNome] = useState();
   let [hostplatID, sethostplatID] = useState();
-
-
+  
   const Projetoservice = new ProjetoService();
   const Plataformaservice= new PlataformaService();
   const NodesService = new NodeService();
@@ -67,6 +69,9 @@ function GerenciaNodes(props){
     const nodes = await NodesService.excluir(id,idplataforma);
     setNodes(nodes)
     setfilteredNodes(nodes)
+    document.getElementById("searchbox").value = "";
+    
+   
   }
   
   const preparaEditar  = (id) => {
@@ -87,6 +92,7 @@ function GerenciaNodes(props){
   }
 
   function updateInput(search)  {
+    
    
     setfilteredNodes(nodes.filter((nodes) =>
       nodes.nome_node.toLowerCase().includes(search.toLowerCase())
@@ -95,31 +101,29 @@ function GerenciaNodes(props){
     
   }
 
+
+  const updateStatus = (status) => {
+    setShowModal(status)
+
+  }
+
  
 
   return (
     <div>
       <h2>Gerenciamento de Nodes</h2>
       <br/>
-      {showModal == true ?(
-     <div className="modal-dialog" role="document">
-     <div className="modal-content">
-       <div className="modal-header">
-         <h5 className="modal-title">Exclusão de Nodes</h5>
-         <button type="button" className="close" data-dismiss="modal" onClick={() => setShowModal(false)} aria-label="Close">
-           <span aria-hidden="false">&times;</span>
-         </button>
-       </div>
-       <div className="modal-body">
-   <p> Essa ação excluirá o node selecionado.<br/> Essa ação não tem volta.</p>
-       </div>
-       <div className="modal-footer">
-         <button type="button" className="btn btn-primary" onClick={() => handleExcluir(id,hostplatID)}>Excluir</button>
-         <button type="button" className="btn btn-secondary" data-dismiss="modal"onClick={() => setShowModal(false)} >Close</button>
-       </div>
-     </div>
-   </div>):("")
-}
+     {showModal == true ?( 
+      <Modal showModal={showModal}
+      updateStatus={updateStatus}
+      id={id}
+      hostplatID={hostplatID}
+      handleExcluir={handleExcluir}
+      texto="node"   /> 
+                 
+          
+     ):("")}
+
       <div className="form-group">
       <label htmlFor="exampleSelect1">Projeto</label>
       <select

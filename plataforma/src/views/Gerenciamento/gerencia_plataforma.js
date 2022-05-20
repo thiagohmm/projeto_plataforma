@@ -2,6 +2,7 @@ import React , { useState,  useEffect } from 'react';
 import ProjetoService from '../../controller/projeto_service'
 import PlataformaService from '../../controller/plataforma_service'
 import { withRouter } from 'react-router-dom';
+import Modal from '../../components/modal';
 
 
 function GerenciaPlataforma(props){
@@ -61,31 +62,26 @@ function GerenciaPlataforma(props){
 
   }
 
+  const updateStatus = (status) => {
+    setShowModal(status)
+
+  }
  
 
   return (
     <div>
       <h2>Gerenciamento de Plataformas</h2>
       <br/>
-      {showModal == true ?(
-     <div className="modal-dialog" role="document">
-     <div className="modal-content">
-       <div className="modal-header">
-         <h5 className="modal-title">Exclusão de Projeto</h5>
-         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="false">&times;</span>
-         </button>
-       </div>
-       <div className="modal-body">
-   <p> Essa ação excluirá a plataforma selecionada e os nodes vinculadas a ela.<br/>  Deseja mesmo excluir o projeto {nome} de id {id} ?<br/>Essa ação não tem volta.</p>
-       </div>
-       <div className="modal-footer">
-         <button type="button" className="btn btn-primary" onClick={() => handleExcluir(id,host_projt_id)}>Excluir</button>
-         <button type="button" className="btn btn-secondary" data-dismiss="modal"onClick={() => setShowModal(false)} >Close</button>
-       </div>
-     </div>
-   </div>):("")
-}
+      {showModal == true ?( 
+      <Modal showModal={showModal}
+      updateStatus={updateStatus}
+      id={id}
+      hostplatID={host_projt_id}
+      handleExcluir={handleExcluir}
+      texto="plataforma"   /> 
+                 
+          
+     ):("")}
       <div className="form-group">
       <label htmlFor="exampleSelect1">Projeto</label>
       <select

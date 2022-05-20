@@ -3,6 +3,7 @@ const SearchBox = (props) => {
   return (
     <input
       type="search"
+      id="searchbox"
       className="form-control input-sm"
       placeholder={props.placeholder}
       onChange={props.handleChange}
